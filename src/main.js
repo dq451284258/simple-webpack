@@ -138,4 +138,169 @@ function rgb(r, g, b){
 function narcissistic(value) {
   return value.toString().split('').map(Number).reduce((a, b, i, arr) => (i == 1 ? Math.pow(a, arr.length) : a) + Math.pow(b, arr.length)) == value
 }
-console.log(narcissistic(371))
+// console.log(narcissistic(371))
+
+/*
+ *@Description: 数组中找到出现奇数次的整数
+ *@MethodAuthor:  dq
+ *@Date: 2019-06-25 13:57:04
+*/
+function findOdd(A) {
+  // let a = [...new Set(A)]
+  // let t = 0, n = ''
+  // for(let i = 0; i < a.length; i ++) {
+  //   for(let j = 0; j < A.length; j ++) {
+  //     if(a[i] == A[j]) {
+  //       t++
+  //     }
+  //   }
+  //   if(t%2 == 1) {
+  //     n = a[i]
+  //     break;
+  //   };
+  // }
+  // return n
+  return A.reduce((a, b) => a ^ b)
+}
+// console.log(findOdd([1,1,2,-2,5,2,4,4,-1,-2,5]))
+
+/*
+ *@Description: 字符串相邻去重转数组
+ *@MethodAuthor:  dq
+ *@Date: 2019-06-25 14:20:48
+*/
+var uniqueInOrder=function(iterable){
+  if(!iterable.length) return []
+  let arr = [...iterable], a = []
+  for(let i = 0; i < arr.length-1; i ++) {
+    if(arr[i] !== arr[i+1]) a.push(arr[i])
+  }
+  a.push(arr.pop())
+  return a
+}
+// console.log(uniqueInOrder('AAAABBBCCDAABBB'))
+
+/*
+ *@Description: 数组和中间数
+ *@MethodAuthor:  dq
+ *@Date: 2019-06-25 16:00:53
+*/
+function findEvenIndex(arr)
+{
+  // let a = -1
+  // for(let i = 0; i < arr.length; i ++) {
+  //   let arr1 = [...arr].splice(0, i).length ? [...arr].splice(0, i).reduce((a, b) => a+b) : 0
+  //   let arr2 = [...arr].splice(i+1, arr.length).length ? [...arr].splice(i+1, arr.length).reduce((a, b) => a+b) : 0
+  //   if(arr1 == arr2) a = i
+  // }
+  // return a
+  for(var i=1; i<arr.length-1; i++) {
+    if(arr.slice(0, i).reduce((a, b) =>  a+b) === arr.slice(i+1).reduce((a, b) =>  a+b)) {
+      return i;
+    }
+  }
+  return -1;
+}
+// console.log(findEvenIndex([1,2,3,4,3,2,1]))
+
+/*
+ *@Description: 字母的+-*\
+ *@MethodAuthor:  dq
+ *@Date: 2019-06-25 18:10:30
+*/
+function zero() {}
+function one() {}
+function two() {}
+function three() {}
+function four() {}
+function five() {
+  return 5
+}
+function six() {}
+function seven() {
+  let times = /\*/g
+  if(times.test(arguments[0])) return 7 * arguments[0].split('*')[1]
+  else return 7
+}
+function eight() {}
+function nine() {}
+
+function plus() {}
+function minus() {}
+function times() {
+  return '*'+arguments[0]
+}
+function dividedBy() {}
+// console.log( seven( times( five() ) ) )
+
+const Circus = function(circus) {
+  this.n = circus && circus.n ? circus.n : 12 //格子数
+  this.m = circus && circus.m ? circus.m : 1 //倍率
+  /*
+  *@Description: 获取字母表
+  *@MethodAuthor:  dq
+  *@Date: 2019-07-29 11:31:18
+  */
+  this.getWord = () => {
+    let arr = []
+    for(let i = 0; i < 26; i ++) {
+      arr.push(String.fromCharCode(65+i))
+    }
+    return arr
+  }
+  /*
+  *@Description: 数组随机排列
+  *@MethodAuthor:  dq
+  *@Date: 2019-07-29 10:02:34
+  */
+  this.randomArray = () => {
+    let arr_arr = this.getWord().splice(0, this.n)
+    let arr = this.findLastReplace(JSON.stringify(arr_arr))
+    for(let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]]
+    }
+    console.log(arr)
+    return arr
+  }
+  /*
+  *@Description: L随机替换
+  *@MethodAuthor:  dq
+  *@Date: 2019-07-29 13:33:35
+  */
+  this.findLastReplace = (arr_str) => {
+    let new_arr = JSON.parse(arr_str)
+    let back_arr = JSON.parse(arr_str)
+    if(this.m < 1) {
+      let num = (1 - this.m)*10
+      for(let i = 0; i < num; i ++) {
+        back_arr.concat(JSON.parse(arr_str))
+      }
+    }
+    for(let i = 0; i < this.m; i ++) {
+      back_arr.push('joke')
+    }
+    new_arr[new_arr.length - 1] = back_arr[Math.floor(Math.random() * back_arr.length)]
+    return new_arr
+  }
+  /*
+   *@Description: 测试爆率
+   *@MethodAuthor:  dq
+   *@Date: 2019-07-29 15:57:28
+  */
+  this.run = () => {
+    let i = 0
+    let timer = setInterval(() => {
+      let arr = this.randomArray()
+      if(JSON.stringify(arr).indexOf('joke') !== -1) {
+        console.log('获取到joke，共计'+ i + '次')
+        i = 0
+        clearInterval(timer)
+      }
+      i ++
+    }, 100)
+  }
+}
+let c = new Circus({m: 0.1})
+// c.run()
+// console.log(c.randomArray())
