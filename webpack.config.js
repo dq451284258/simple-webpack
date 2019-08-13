@@ -4,6 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Webpack = require('webpack')
 
+const devMode = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   mode: "development",
   entry: {
@@ -18,32 +20,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: ["sass-loader"]
-      },
-      {
-        test: "/\.css$/",
+        test: /\.(sa|sc|c)ss$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // 这里可以指定一个 publicPath
-              // 默认使用 webpackOptions.output中的publicPath
-              publicPath: '../'
-            },
-          },
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
-          // { loader: "style-loader" },
-          // { loader: "css-loader" }
+          'sass-loader',
         ]
       }
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    }),
     new HtmlWebpackPlugin({
       title: "simple",
       template: "./public/index.html",
@@ -54,6 +40,9 @@ module.exports = {
       filename: 'snkrsPass.html',
       template: "./src/views/snkrsPass/index.html",
       chunks: ['snkrsPass']
+    }),
+    new MiniCssExtractPlugin({
+      filename: devMode ? '[name].css' : '[name].[hash].css'
     }),
     new CleanWebpackPlugin(),
     new Webpack.NamedModulesPlugin(),

@@ -1,3 +1,4 @@
 
-import "style-loader!css-loader!./style.css"
+import "./style.scss"
 // import "./style.css"
+// require('style-loader!css-loader!./style.css')
