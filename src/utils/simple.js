@@ -301,6 +301,6 @@ const Circus = function(circus) {
     }, 100)
   }
 }
-let c = new Circus({m: 0.1})
+// let c = new Circus({m: 0.1})
 // c.run()
 // console.log(c.randomArray())
